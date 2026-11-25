@@ -83,7 +83,8 @@ public sealed class Shader : IDisposable
         IsFallback = false; 
 
         _uniformLocations.Clear(); //sterge vechile adrese ale variabilelor
-        _missing.Clear(); //sterge lista vechilor avertismente despre variabile lipsa ca sa se verifice din nou pe shaderul proaswpat compilat
+        _missing.Clear(); 
+        //sterge lista vechilor avertismenteespre variabile lipsa ca sa se verifice din nou pe shaderul proaswpat compilat
         _reported.Clear();
 
         return true;

@@ -53,7 +53,22 @@ public sealed class UniformSet
                     break;
                 // TODO 7.2: tratați și tipurile Vector2 (SetVector2), Vector3 (SetVector3)
                 //           și bool (SetInt, cu 1 pentru true și 0 pentru false), după modelul de mai sus.
-                default:
+
+                case Vector2 v2: //daca valoarea este un vector cu 2 compenente o trimite folosind SetVector3 
+                    shader.SetVector2(name, v2);
+                    break;
+
+                case Vector3 v3:
+                    shader.SetVector3(name, v3);
+                    break;
+
+                case bool b: //daca valoarea este false sau true o transforma in 1 pentru true sau 0 pantru false si o trimite cu SetInt
+                    //inOpenGLL nu exista o functie separata pentru bool
+                    shader.SetInt(name, b ? 1 : 0);
+                    break;
+
+
+                default: //aceasta linie de cod se exect doar daca cineva a pus in valoare un tip de date necunoscut 
                     if (Unsupported.Add(value.GetType()))
                     {
                         ConsolePanel.PrintMessage($"UniformSet.Apply: tipul {value.GetType().Name} nu este tratat ({name}) – TODO 7.2");
