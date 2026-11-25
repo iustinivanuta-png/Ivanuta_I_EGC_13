@@ -75,9 +75,21 @@ public sealed class Shader : IDisposable
         //      (la eroare, TryBuild a afișat deja mesajul, iar programul vechi rămâne activ);
         //   2. ștergeți programul vechi (GL.DeleteProgram(Handle)), apoi Handle = newHandle; IsFallback = false;
         //   3. locațiile uniformelor aparțin programului vechi: goliți _uniformLocations, _missing și _reported;
-        //   4. return true.
-        ConsolePanel.PrintMessage($"{Name}: reîncărcarea nu este scrisă încă (TODO 7.1).");
-        return false;
+        if (!TryBuild(out int newHandle))//incearca sa compileze fisierul nou salvat. Daca in codexista o greseala se opreste si pastreaza versiunea veche pe eccran
+            return false;
+
+        GL.DeleteProgram(Handle);//sterge shaderul vechi din memoria placii video (elibereaza locul)
+        Handle = newHandle;
+        IsFallback = false; 
+
+        _uniformLocations.Clear(); //sterge vechile adrese ale variabilelor
+        _missing.Clear(); //sterge lista vechilor avertismente despre variabile lipsa ca sa se verifice din nou pe shaderul proaswpat compilat
+        _reported.Clear();
+
+        return true;
+
+        //ConsolePanel.PrintMessage($"{Name}: reîncărcarea nu este scrisă încă (TODO 7.1).");
+       // return false;
     }
 
     /// <summary>Adevărat dacă unul dintre fișiere a fost salvat după ultima compilare (pentru reîncărcarea automată).</summary>
