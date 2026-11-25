@@ -151,6 +151,8 @@ public sealed class LabScene : Scene
         //              (după modelul paletei de mai jos).
 
         // P5: C trece la paleta următoare; cele patru uniforme vec3 se schimbă lin.
+        _gradient.Uniforms.Set("uColorA", _colorA.Value);
+        _gradient.Uniforms.Set("uColorB", _colorB.Value);
         if (input.WasPressed(NextPalette))
         {
             _paletteIndex = (_paletteIndex + 1) % Palettes.Length;
